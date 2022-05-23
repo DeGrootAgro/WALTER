@@ -5,9 +5,25 @@
 #include "std_msgs/String.h"
 #include "visualization_msgs/Marker.h"
 #include <actionlib/client/simple_action_client.h>
+#include <stdexcept>
 
 typedef actionlib::SimpleActionClient<boustrophedon_msgs::PlanMowingPathAction>
     Client;
+
+// The code snippet below is licensed under CC0 1.0.
+template <typename... Args>
+std::string string_format(const std::string &format, Args... args) {
+  int size_s = std::snprintf(nullptr, 0, format.c_str(), args...) +
+               1; // Extra space for '\0'
+  if (size_s <= 0) {
+    throw std::runtime_error("Error during formatting.");
+  }
+  auto size = static_cast<size_t>(size_s);
+  std::unique_ptr<char[]> buf(new char[size]);
+  std::snprintf(buf.get(), size, format.c_str(), args...);
+  return std::string(buf.get(),
+                     buf.get() + size - 1); // We don't want the '\0' inside
+}
 
 geometry_msgs::Point32 createPoint32(double x = 0, double y = 0, double z = 0) {
   geometry_msgs::Point32 p;
@@ -99,8 +115,19 @@ void pathPlannerCallBack(
 
   visualization_msgs::Marker outlineMarker =
       createMarker("outline", visualization_msgs::Marker::LINE_STRIP);
-  visualization_msgs::Marker currentMarker;
+  std_msgs::ColorRGBA boundryColor;
+
+  // Construct the boundy color
+  boundryColor.r = 1;
+  boundryColor.g = boundryColor.b = 0;
+  boundryColor.a = 0.5;
+
+  outlineMarker.color = boundryColor;
   std::vector<visualization_msgs::Marker> markers;
+
+  visualization_msgs::Marker currentMarker;
+  geometry_msgs::Point lastEndPoint = createPoint();
+  int lineSegment = 1;
 
   for (int pointItterator = 0; pointItterator < points.size();
        pointItterator++) {
@@ -113,11 +140,26 @@ void pathPlannerCallBack(
     }
 
     case boustrophedon_msgs::StripingPoint::STRIPE_START: {
-      visualization_msgs::Marker marker = createMarker(
-          "stroke " + pointItterator, visualization_msgs::Marker::ARROW);
+      std::string ns = string_format("Segment %d", lineSegment++);
+
+      visualization_msgs::Marker marker =
+          createMarker(ns, visualization_msgs::Marker::ARROW);
       currentMarker = marker;
-      currentMarker.points.push_back(
-          createPoint(point.point.x, point.point.y, point.point.z));
+
+      geometry_msgs::Point position =
+          createPoint(point.point.x, point.point.y, point.point.z);
+
+      if (lastEndPoint != createPoint()) {
+        std::string connection_ns = string_format("Segment %d", lineSegment++);
+        // Marker used to navigate from one end to the start of the new segment
+        visualization_msgs::Marker connectionMarker =
+            createMarker(connection_ns, visualization_msgs::Marker::ARROW);
+        connectionMarker.points.push_back(lastEndPoint);
+        connectionMarker.points.push_back(position);
+        markers.push_back(connectionMarker);
+      }
+
+      currentMarker.points.push_back(position);
       break;
     }
 
@@ -127,10 +169,11 @@ void pathPlannerCallBack(
       break;
     }
     case boustrophedon_msgs::StripingPoint::STRIPE_END: {
-      currentMarker.points.push_back(
-          createPoint(point.point.x, point.point.y, point.point.z));
+      geometry_msgs::Point position =
+          createPoint(point.point.x, point.point.y, point.point.z);
+      currentMarker.points.push_back(position);
       markers.push_back(currentMarker);
-
+      lastEndPoint = position;
       break;
     }
 

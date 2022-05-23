@@ -1,5 +1,8 @@
 <launch>
 <node pkg="tf" type="static_transform_publisher" name="link_broadcaster" args="1 0 0 0 0 0 1 world walter 100" />
+<node pkg="boustrophedon_server" type="boustrophedon_planner_server" name="boustrophedon_server" output="screen" >
+    <rosparam command="load" file="$(find walter)/settings/boustrophedon.yaml" />
+</node>
 <node pkg="walter" type="walter" name="visual_marker_publisher" output="screen" />
 <!-- <node type="rviz" name="rviz" pkg="rviz" args="-d $(find walter)/rviz/config_file.rviz" /> -->
 </launch>
