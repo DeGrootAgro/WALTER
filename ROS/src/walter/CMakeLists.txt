@@ -2,17 +2,16 @@ cmake_minimum_required(VERSION 3.0.2)
 project(walter)
 
 find_package(catkin REQUIRED COMPONENTS
-  actionlib
-  move_base_msgs
   roscpp
+  std_msgs
+  message_generation
 )
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES
+  Battery.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -30,8 +29,8 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
-#   DEPENDENCIES
-#   move_base_msgs
+  DEPENDENCIES
+  std_msgs
 )
 
 ################################################
@@ -64,9 +63,9 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+ INCLUDE_DIRS include
 #  LIBRARIES simple_navigation_goals
-#  CATKIN_DEPENDS actionlib move_base_msgs roscpp
+ CATKIN_DEPENDS message_runtime roscpp
 #  DEPENDS system_lib
 )
 
