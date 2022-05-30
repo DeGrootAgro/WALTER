@@ -3,7 +3,6 @@ project(walter)
 
 find_package(catkin REQUIRED COMPONENTS
   actionlib
-  boustrophedon_msgs
   move_base_msgs
   roscpp
 )
