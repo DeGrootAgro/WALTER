@@ -1,11 +1,5 @@
-#include "boustrophedon_msgs/PlanMowingPathAction.h"
-#include "geometry_msgs/PolygonStamped.h"
-#include "geometry_msgs/PoseStamped.h"
+
 #include "ros/ros.h"
-#include "std_msgs/String.h"
-#include "visualization_msgs/Marker.h"
-#include <actionlib/client/simple_action_client.h>
-#include <stdexcept>
 
 int main(int argc, char **argv) {
   ros::init(argc, argv, "Walter");
