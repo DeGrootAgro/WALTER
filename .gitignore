@@ -1,6 +1,9 @@
 devel/
 logs/
 build/
+devel_cb/
+logs_cb/
+build_cb/
 bin/
 lib/
 msg_gen/
@@ -49,5 +52,6 @@ qtcreator-*
 
 # Catkin custom files
 CATKIN_IGNORE
+.catkin_tools
 
 .vscode
