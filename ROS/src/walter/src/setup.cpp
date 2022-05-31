@@ -4,6 +4,8 @@
 int main(int argc, char **argv) {
   ros::init(argc, argv, "Walter");
 
+  ROS_DEBUG("Hallo");
+
   ros::spin();
 }
 
