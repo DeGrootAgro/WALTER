@@ -1,5 +1,6 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+#include "std_msgs/Bool.h"
 #include "geometry_msgs/Twist.h"
 
 
@@ -25,7 +26,7 @@ enum state{
 state current_state;
 
 ros::Publisher cmd_vel_publisher;
-
+ros::Publisher paused_publisher;
 
 std::map<state, std::string> enum_names;
 
@@ -41,10 +42,25 @@ void init_state_names(){
 }
 
 
+
 void set_nav_goal(){
 
 }
 
+void run_coverage_config(){
+    std_msgs::Bool paused;
+ 
+    if (current_state == ST_COLLECTING)
+    {
+       paused.data = false;
+
+    }else
+    {
+        paused.data = true;
+    }
+    paused_publisher.publish(paused);
+    
+}
 
 void on_cmd_vel_recieve_manual(const geometry_msgs::Twist::ConstPtr& msg){
     if (current_state == ST_MANUAL_CONTROL)
@@ -89,9 +105,6 @@ int main(int argc, char **argv){
 
     ros::init(argc, argv, "state_controller");
     ros::NodeHandle n;
-
-   
-
     init_state_names();
 
     ros::Subscriber manual_cmd_vel_subscriber       = n.subscribe("/manual/cmd_vel",1000,on_cmd_vel_recieve_manual);
@@ -111,8 +124,10 @@ int main(int argc, char **argv){
     twist_idle.linear.z = 0;
     
 
-    cmd_vel_publisher = n.advertise<geometry_msgs::Twist>("/cmd_vel",1000);
-    
+    cmd_vel_publisher   = n.advertise<geometry_msgs::Twist>("/cmd_vel",1000);
+    paused_publisher    = n.advertise<std_msgs::Bool>("/pause",1000);
+
+
     cmd_vel_publisher.publish(twist_idle);
     current_state = ST_IDLE;
 
@@ -120,10 +135,12 @@ int main(int argc, char **argv){
     std::cout << "[STATE_CONTROLLER] Current state: " << enum_names[current_state] << std::endl; 
 
     
-    ros::Rate rate(10);
+    ros::Rate rate(15);
     while (ros::ok())
     {
-        //keep alive
+        run_coverage_config();
+
+
        switch (current_state)
        {
         case ST_IDLE:

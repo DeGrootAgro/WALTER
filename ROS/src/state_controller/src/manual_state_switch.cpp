@@ -43,9 +43,8 @@ int main(int argc, char **argv){
         std::cin >> answer;
 
         for(auto& it : enum_names){
-            //log(it.second);
             if (it.second == answer)
-                {/* condition */
+                {
                
                 std_msgs::String msg;
 

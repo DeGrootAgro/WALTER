@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+
+<launch>
+
+    <arg name="cmd_vel_topic_navigate" default="/navigate/cmd_vel"/>
+
+
+    <include file="$(find full_coverage_path_planner)/launch/plan_run_current_map.launch">
+        <arg name="cmd_vel_topic" value="/automatic/cmd_vel"/>
+    </include> 
+
+    <!-- <group if="$(arg open_rviz)"> 
+        <node pkg="rviz" type="rviz" name="rviz" required="true"
+             args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
+    </group> -->
+</launch>
