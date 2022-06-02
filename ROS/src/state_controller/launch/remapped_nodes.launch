@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<launch>
+  
+    <node name="state_controller" pkg="state_controller" type="state_controller"  />
+    <node name="turtlebot3_teleop_keys" pkg="turtlebot3_teleop" type="turtlebot3_teleop_key" output ="screen">
+        <remap from="/cmd_vel" to="/manual/cmd_vel"/>
+    </node>
+
+</launch>

@@ -1,5 +1,7 @@
 state_controller
 /home/teun/WALTER/ROS/devel/.private/state_controller/cmake.lock /home/teun/WALTER/ROS/devel/./cmake.lock
+/home/teun/WALTER/ROS/devel/.private/state_controller/lib/state_controller/manual_state_switch /home/teun/WALTER/ROS/devel/lib/state_controller/manual_state_switch
+/home/teun/WALTER/ROS/devel/.private/state_controller/lib/state_controller/state_controller /home/teun/WALTER/ROS/devel/lib/state_controller/state_controller
 /home/teun/WALTER/ROS/devel/.private/state_controller/lib/pkgconfig/state_controller.pc /home/teun/WALTER/ROS/devel/lib/pkgconfig/state_controller.pc
 /home/teun/WALTER/ROS/devel/.private/state_controller/share/state_controller/cmake/state_controllerConfig.cmake /home/teun/WALTER/ROS/devel/share/state_controller/cmake/state_controllerConfig.cmake
 /home/teun/WALTER/ROS/devel/.private/state_controller/share/state_controller/cmake/state_controllerConfig-version.cmake /home/teun/WALTER/ROS/devel/share/state_controller/cmake/state_controllerConfig-version.cmake
