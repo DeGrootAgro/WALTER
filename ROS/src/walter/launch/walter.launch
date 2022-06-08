@@ -1,5 +1,0 @@
-<launch>
-<!-- <node pkg="turtlebot3_gazebo" type="turtlebot3_simulation" name="turtlebot" output="screen" /> -->
-<node pkg="walter" type="walter" name="walter" output="screen" />
-<!-- <node type="rviz" name="rviz" pkg="rviz" args="-d $(find walter)/rviz/config_file.rviz" /> -->
-</launch>

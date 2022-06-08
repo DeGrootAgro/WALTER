@@ -1,15 +1,60 @@
 <launch>
-    <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" respawn="true">
+    <node name="navsat_transform_node" pkg="robot_localization" type="navsat_transform_node" output="screen">
+        <!-- Subscriptions -->
+        <remap from="imu/data" to="imu/data" />
+        <remap from="gps/fix" to="gps/fix" />
+        <remap from="odometry/filtered" to="odometry/filtered" />
 
-        <param name="magnetic_declination_radians" value="0"/>
-
-        <param name="yaw_offset" value="0"/>
-
-        <remap from="/imu/data" to="/imu" />
-        <remap from="/gps/fix" to="/walter/gps/fix" />
-        <remap from="/odometry/filtered" to="/walter/robot_localization/output" />
-
+        <!-- Publications -->
+        <remap from="gps/filtered" to="gps/filtered" />
+        <remap from="odometry/gps" to="odometry/gps" />
     </node>
 
-    
+    <!-- Node used for odom -> base_link -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="robot_localization_ekf_node_odom" clear_params="true">
+        <!-- Settings -->
+        <param name="frequency" value="10." />
+        <param name="sensor_timeout" value="0.2" />
+        <param name="two_d_mode" value="true" />
+        <param name="publish_tf" value="true" />
+        <!-- Topic names -->
+        <param name="map_frame" value="map" />
+        <param name="odom_frame" value="odom" />
+        <param name="base_link_frame" value="base_link" />
+        <param name="world_frame" value="odom" />
+        <remap from="odometry/filtered" to="odometry/filtered_twist" />
+        <!-- Sensor data -->
+        <param name="twist0" value="turtle1/sensors/twist" />
+        <param name="twist0_differential" value="false"/>
+        <rosparam param="twist0_config">
+            [false, false, false, false, false, false,
+            true, true, false, false, false, true,
+            false, false, false]</rosparam>
+    </node>
+
+    <!-- Node used for map -> odom -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="robot_localization_ekf_node_map" clear_params="true">
+        <!-- Settings -->
+        <param name="frequency" value="10" />
+        <param name="sensor_timeout" value="0.2" />
+        <param name="two_d_mode" value="true" />
+        <param name="publish_tf" value="true" />
+        <!-- Topic names -->
+        <param name="map_frame" value="map" />
+        <param name="odom_frame" value="odom" />
+        <param name="base_link_frame" value="base_link" />
+        <param name="world_frame" value="map" />
+        <!-- Sensor data -->
+        <param name="twist0" value="turtle1/sensors/twist" />
+        <rosparam param="twist0_config">
+    [false, false, false, false, false, false,
+     true, true, false, false, false, true,
+     false, false, false]</rosparam>
+        <param name="pose0" value="turtle1/sensors/pose" />
+        <rosparam param="pose0_config">
+    [true, true, false, false, false, true,
+     false, false, false, false, false, false,
+     false, false, false]</rosparam>
+        <remap from="odometry/filtered" to="odometry/filtered_map"/>
+    </node>
 </launch>
