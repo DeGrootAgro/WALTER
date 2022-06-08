@@ -1,12 +1,20 @@
 
-#include "ros/ros.h"
+#include <ros/console.h>
+#include <ros/ros.h>
 
 int main(int argc, char **argv) {
+
   ros::init(argc, argv, "Walter");
+  ros::NodeHandle nh;
+  ros::Rate loop_rate(0.5);
 
-  ROS_DEBUG("Hallo");
+  while (ros::ok()) {
 
-  ros::spin();
+    loop_rate.sleep();
+    ros::spinOnce();
+  }
+
+  return 0;
 }
 
 // Robot waits for baseplate command
