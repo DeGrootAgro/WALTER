@@ -1,19 +1,30 @@
-#include "gps_mockup_sensor.hpp"
+#include "mockup_sensors/gps_mockup_sensor.hpp"
 #include <ros/ros.h>
 #include <sensor_msgs/NavSatFix.h>
 
 namespace gps_mockup_sensor {
 
-Sensor::Sensor(double frequency, double longitude, double latitude,
-               double altitude) {
-  this->node_handle = new ros::NodeHandle;
+Sensor::Sensor() {
+  this->node_handle = new ros::NodeHandle("~");
+
+  this->node_handle->param("/walter/mockup_sensors/gps_longitude",
+                           this->longitude, 0.0);
+  this->node_handle->param("/walter/mockup_sensors/gps_latitude",
+                           this->latitude, 0.0);
+  this->node_handle->param("/walter/mockup_sensors/gps_altitude",
+                           this->altitude, 0.0);
+
+  int frequency;
+  this->node_handle->param("/walter/mockup_sensors/gps_frequency", frequency,
+                           1);
+
   this->loop_rate = new ros::Rate(frequency);
-  this->publisher =
-      node_handle->advertise<sensor_msgs::NavSatFix>("/gps/fix", 1000);
+
+  std::string topic("/gps/fix");
+  this->node_handle->param("/walter/mockup_sensors/gps_topic", topic, topic);
+
+  this->publisher = node_handle->advertise<sensor_msgs::NavSatFix>(topic, 1000);
   this->sequence = 1;
-  this->longitude = longitude;
-  this->latitude = latitude;
-  this->altitude = altitude;
 }
 Sensor::~Sensor() { ; }
 

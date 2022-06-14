@@ -13,8 +13,7 @@ private:
   double latitude, longitude, altitude;
 
 public:
-  Sensor(double frequency = 1.0, double longitude = 0, double latitude = 0,
-         double altitude = 0);
+  Sensor();
   ~Sensor();
 
   void spin();

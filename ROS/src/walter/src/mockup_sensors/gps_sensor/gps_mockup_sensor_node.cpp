@@ -1,4 +1,5 @@
-#include "gps_mockup_sensor.hpp"
+#include "mockup_sensors/gps_mockup_sensor.hpp"
+
 #include <ros/ros.h>
 
 int main(int argc, char **argv) {

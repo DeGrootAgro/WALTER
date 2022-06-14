@@ -4,7 +4,6 @@
 
     <!-- Create node for walter -->
     <node pkg="walter" type="walter_node" name="walter_instance" output="screen"/>
-    <node pkg="walter" type="walter_gps_sensor_node" name="walter_gps_sensor_instance" output="screen"/>
 
 
 
