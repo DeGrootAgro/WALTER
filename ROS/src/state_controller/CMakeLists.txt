@@ -125,6 +125,9 @@ include_directories(
 add_executable(state_controller src/state_controller.cpp)
 target_link_libraries(state_controller ${catkin_LIBRARIES})
 
+add_executable(walter_landmark_manager src/walter_landmark_manager.cpp)
+target_link_libraries(walter_landmark_manager ${catkin_LIBRARIES})
+
 add_executable(manual_state_switch src/manual_state_switch.cpp)
 target_link_libraries(manual_state_switch ${catkin_LIBRARIES})
 #add_dependencies(talker beginner_tutorials_generate_messages_cpp)
