@@ -1,13 +1,13 @@
 <launch>
     <node name="navsat_transform_node" pkg="robot_localization" type="navsat_transform_node" output="screen">
         <!-- Subscriptions -->
-        <remap from="imu/data" to="imu/data" />
-        <remap from="gps/fix" to="gps/fix" />
-        <remap from="odometry/filtered" to="odometry/filtered" />
+        <remap from="imu/data" to="/imu/data" />
+        <remap from="gps/fix" to="/gps/fix" />
+        <remap from="odometry/filtered" to="/odometry/filtered" />
 
         <!-- Publications -->
-        <remap from="gps/filtered" to="gps/filtered" />
-        <remap from="odometry/gps" to="odometry/gps" />
+        <remap from="gps/filtered" to="/gps/filtered" />
+        <remap from="odometry/gps" to="/odometry/gps" />
     </node>
 
     <!-- Node used for odom -> base_link -->
@@ -24,12 +24,7 @@
         <param name="world_frame" value="odom" />
         <remap from="odometry/filtered" to="odometry/filtered_twist" />
         <!-- Sensor data -->
-        <param name="twist0" value="turtle1/sensors/twist" />
-        <param name="twist0_differential" value="false"/>
-        <rosparam param="twist0_config">
-            [false, false, false, false, false, false,
-            true, true, false, false, false, true,
-            false, false, false]</rosparam>
+
     </node>
 
     <!-- Node used for map -> odom -->
@@ -45,16 +40,13 @@
         <param name="base_link_frame" value="base_link" />
         <param name="world_frame" value="map" />
         <!-- Sensor data -->
-        <param name="twist0" value="turtle1/sensors/twist" />
-        <rosparam param="twist0_config">
-    [false, false, false, false, false, false,
-     true, true, false, false, false, true,
-     false, false, false]</rosparam>
-        <param name="pose0" value="turtle1/sensors/pose" />
-        <rosparam param="pose0_config">
-    [true, true, false, false, false, true,
-     false, false, false, false, false, false,
-     false, false, false]</rosparam>
-        <remap from="odometry/filtered" to="odometry/filtered_map"/>
+        <param name="odom1" value="/odometry/filtered"/>
+
+        <rosparam param="odom1_config">[true,  true,  false,
+                                            false, false, false,
+                                            false, false, false,
+                                            false, false, false,
+                                            false, false, false]</rosparam>
+        <param name="odom1_differential" value="false"/>
     </node>
 </launch>
