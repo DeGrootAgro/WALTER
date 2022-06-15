@@ -1,3 +1,6 @@
 [submodule "ROS/src/full_coverage_path_planner"]
 	path = ROS/src/full_coverage_path_planner
 	url = https://github.com/nobleo/full_coverage_path_planner
+[submodule "ROS/src/robot_localization"]
+	path = ROS/src/robot_localization
+	url = https://github.com/cra-ros-pkg/robot_localization

@@ -23,7 +23,7 @@
         <param name="base_link_frame" value="base_link" />
         <param name="world_frame" value="odom" />
         <!-- Topic used for motor -->
-        <param name="twist0" value="cmd/vel" />
+        <param name="twist0" value="cmd_vel" />
         <param name="twist0_differential" value="false"/>
         <rosparam param="twist0_config">
           [false, false, false, false, false, false,
