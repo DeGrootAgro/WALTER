@@ -30,6 +30,7 @@
      <param name="frame_id" value="map"/>
   </node>
 
+  <node pkg="riotu_robot_pose_publisher" name="riotu_robot_pose_publisher" type="riotu_robot_pose_publisher"/>
     <!-- Turtlebot3 -->
   <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
     <arg name="model" value="$(arg model)" />
@@ -38,6 +39,7 @@
     <!-- AMCL -->
   <include file="$(find turtlebot3_navigation)/launch/amcl.launch"/>
 
+  <!-- <invlude file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"> -->
 
   <!-- move_base -->
   <include file="$(find turtlebot3_navigation)/launch/move_base.launch">

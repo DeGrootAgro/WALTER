@@ -9,7 +9,8 @@ enum state{
     ST_COLLECTING,
     ST_NAVIGATE_TO_LOADING,
     ST_LOADING,
-    ST_EMERGENCY_STOP
+    ST_EMERGENCY_STOP,
+    ST_RETURN_TO_PATH
 };
 
 std::map<state, std::string> enum_names;
@@ -23,6 +24,7 @@ void init_state_names(){
     enum_names[ST_NAVIGATE_TO_LOADING]  = "ST_NAVIGATE_TO_LOADING";
     enum_names[ST_LOADING]              = "ST_LOADING";
     enum_names[ST_EMERGENCY_STOP]       = "ST_EMERGENCY_STOP"; 
+    enum_names[ST_RETURN_TO_PATH]       = "ST_RETURN_TO_PATH";
 }
 void log(std::string data){
     std::cout<<"[MANUAL_STATE_SWITCH] "<< data <<std::endl;
@@ -34,6 +36,11 @@ int main(int argc, char **argv){
     ros::NodeHandle n;
 
     init_state_names();
+
+
+        for(auto& it : enum_names){
+            log(it.second);
+        }
 
     ros::Publisher state_switcher = n.advertise<std_msgs::String>("/state_controller/state",1000);
 

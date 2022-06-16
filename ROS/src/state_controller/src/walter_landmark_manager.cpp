@@ -3,6 +3,7 @@
 #include "ros/ros.h"
 #include "state_controller/landmark.h"
 #include <vector>
+#include "std_msgs/String.h"
 
 void log(std::string data) {
   std::cout << "[WALTER_LANDMARK_MANAGER] " << data << std::endl;
@@ -10,15 +11,21 @@ void log(std::string data) {
 
 void save_position(landmark lm) {}
 
-std::vector<landmark> createFakeLocations() {
-  geometry_msgs::PoseStamped ps;
-  ps.pose.orientation.w = 1;
-  ps.pose.orientation.x = -5.5;
+std::vector<landmark> createFakeLocations(ros::NodeHandle n) {
+  geometry_msgs::Pose ps;
 
-  ps.pose.position.x = -2;
-  ps.pose.position.y = -0.5;
+  ps.orientation.w = 1;
+  ps.orientation.x = 0;
+  ps.orientation.y = 0;
+  ps.orientation.z = 0;
 
-  landmark unload_point(ps, "UNLOAD_POINT");
+  ps.position.x = 0.68;
+  ps.position.y = -1.82;
+  ps.position.z = 0;
+
+ 
+
+  landmark unload_point(ps, "UNLOAD_POINT", n.advertise<geometry_msgs::Pose>("UNLOAD_POINT",1000));
 
   std::vector<landmark> lm;
   lm.push_back(unload_point);
@@ -26,47 +33,35 @@ std::vector<landmark> createFakeLocations() {
   return lm;
 }
 
-std::vector<landmark> load_positions() { return createFakeLocations(); }
+std::vector<landmark> load_positions(ros::NodeHandle n) { return createFakeLocations(n); }
 
 int main(int argc, char **argv) {
   ros::init(argc, argv, "walter_landmark_manager");
   ros::NodeHandle n;
 
-  if (argc == 0) {
-    log("\nuse -save {LOCATION_NAME} to save a location\n use -publish to "
-        "start publishing landmarks");
-    ros::shutdown();
-  }
-  if (argv[0] == "-save") {
-    // sla op in config
-    if (argc >= 2) {
-      /* code */
-      std::string name = argv[1];
-      nav_msgs::Odometry location =
-          *ros::topic::waitForMessage<nav_msgs::Odometry>("/odom");
+  log("checking args");
+  std::cout << argc << std::endl;
+  log(argv[0]);
+ 
 
-      geometry_msgs::PoseStamped ps;
-
-      ps.pose = location.pose.pose;
-      landmark lm(ps, name);
-
-      save_position(lm);
-    }
-  }
-  if (argv[0] == "-publish") {
+  if (argc == 1) {
+   log("publishing");
     ros::Rate r = ros::Rate(1);
 
-    std::vector<landmark> landmarks = load_positions();
-    std::vector<ros::Publisher> publishers;
+    std::vector<landmark> landmarks = load_positions(n);
+    //std::vector<ros::Publisher> publishers;
 
-    for (int i = 0; i < landmarks.size(); i++) {
-      //   n.advertise()
-    }
+   
 
     while (ros::ok()) {
+
+      for (int i = 0; i < landmarks.size(); i++) {
+        landmarks[i].publish();
+      }
 
       ros::spinOnce();
       r.sleep();
     }
   }
+
 }
