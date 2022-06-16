@@ -10,3 +10,6 @@
 [submodule "ROS/src/turtlebot3"]
 	path = ROS/src/turtlebot3
 	url = https://github.com/ROBOTIS-GIT/turtlebot3.git
+[submodule "ROS/src/ublox"]
+	path = ROS/src/ublox
+	url = https://github.com/KumarRobotics/ublox
