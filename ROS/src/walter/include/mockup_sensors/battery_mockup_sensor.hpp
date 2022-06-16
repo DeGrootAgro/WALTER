@@ -1,16 +1,18 @@
-#ifndef __gps_mockup_sensor
-#define __gps_mockup_sensor
+#ifndef __battery_mockup_sensor
+#define __battery_mockup_sensor
 
 #include <ros/ros.h>
 
-namespace gps_mockup_sensor {
+namespace battery_mockup_sensor {
 class Sensor {
 private:
   ros::Rate *loop_rate;
   ros::NodeHandle *node_handle;
   ros::Publisher publisher;
   int sequence;
-  double longitude, latitude, altitude;
+
+  double battery_usage_per_second, percentage;
+  ros::Time last_time;
 
 public:
   Sensor();
@@ -18,6 +20,6 @@ public:
 
   void spin();
 };
-} // namespace gps_mockup_sensor
+} // namespace battery_mockup_sensor
 
 #endif

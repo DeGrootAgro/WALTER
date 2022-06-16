@@ -3,13 +3,12 @@
     <env name="ROSCONSOLE_CONFIG_FILE" value="$(find walter)/cfg/debug_ros_console.conf"/>
 
     <!-- Create node for walter -->
-    <node pkg="walter" type="walter_node" name="walter_instance" output="screen"/>
+    <!-- <node pkg="walter" type="walter_node" name="walter_instance" output="screen"/> -->
 
     <!-- Below are nodes used to estimate pose of walter -->
     <!-- Convert from sensor_msgs/NavSatFix to nav_msgs/Odometry  -->
     <node name="navsat_transform_node" pkg="robot_localization" type="navsat_transform_node" output="screen">
         <!-- Subscriptions -->
-        <!--  -->
         <remap from="imu/data" to="/imu" />
         <remap from="gps/fix" to="/gps/fix" />
         <remap from="odometry/filtered" to="/odometry/filtered" />
