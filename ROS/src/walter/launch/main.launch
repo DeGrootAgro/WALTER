@@ -41,13 +41,6 @@
         <rosparam param="imu0_config">[false,false,false,false,false,false,
                                         true, true,false,false, false, true,
                                         true,true,false]</rosparam>
-
-        <!-- Use pose of AMCL -->
-        <param name="pose0" value="/amcl_pose"/>
-        <param name="pose0_differential" value="false"/>
-        <rosparam param="pose0_config">[true,true,false,false,false,true,
-                                        false, false,false,false, false, false,
-                                        false,false,false]</rosparam>
     </node>
 
     <!-- robot_localization EKF node for the map frame -->
