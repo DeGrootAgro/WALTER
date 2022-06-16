@@ -17,3 +17,11 @@
 [submodule "ROS/src/robot_pose_publisher"]
 	path = ROS/src/robot_pose_publisher
 	url = https://github.com/GT-RAIL/robot_pose_publisher.git
+[submodule "ROS/src/--force"]
+	path = ROS/src/--force
+	url = https://github.com/cra-ros-pkg/robot_localization.git
+	branch = noetic-devel
+[submodule "ROS/src/robot_localization"]
+	path = ROS/src/robot_localization
+	url = https://github.com/cra-ros-pkg/robot_localization.git
+	branch = noetic-devel

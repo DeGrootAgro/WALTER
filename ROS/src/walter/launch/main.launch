@@ -37,9 +37,11 @@
         <!-- Use IMU data from rotary encoders -->
         <param name="imu0" value="imu" />
         <param name="imu0_differential" value="false"/>
-        <rosparam param="imu0_config">[false,false,false,false,false,false,
-                                        true, true,false,false, false, true,
-                                        true,true,false]</rosparam>
+        <rosparam param="imu0_config">[false,  false,  false,
+            false,  false,  true,
+            false,  false, false,
+            false, false, true,
+            true, false, false]</rosparam>
     </node>
 
     <!-- robot_localization EKF node for the map frame -->
@@ -58,9 +60,11 @@
         <!-- Use IMU data from rotary encoders -->
         <param name="imu0" value="imu" />
         <param name="imu0_differential" value="true"/>
-        <rosparam param="imu0_config">[false,false,false,false,false,false,
-                true, true,false,false, false, true,
-                true,true,false]</rosparam>
+        <rosparam param="imu0_config">[false,  false,  false,
+            false,  false,  true,
+            false,  false, false,
+            false, false, true,
+            true, false, false]</rosparam>
 
         <!-- Use pose of AMCL -->
         <param name="pose0" value="/amcl_pose"/>
@@ -71,9 +75,9 @@
 
         <!-- Use gps data from nav sat transform node -->
         <param name="odom0" value="/odometry/gps" />
-        <rosparam param="odom0_config">[true, true, true, true, true, true,
-                                        true, true, true,true, true, true,
-                                        true,true,true]</rosparam>
+        <rosparam param="odom0_config">[true, true, false, false, false, true,
+                                        true, true, false,false, false, true,
+                                        false,false,false]</rosparam>
     </node>
 
 </launch>
