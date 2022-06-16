@@ -7,3 +7,6 @@
 [submodule "ROS/src/rosbridge_suite"]
 	path = ROS/src/rosbridge_suite
 	url = https://github.com/RobotWebTools/rosbridge_suite
+[submodule "ROS/src/turtlebot3"]
+	path = ROS/src/turtlebot3
+	url = https://github.com/ROBOTIS-GIT/turtlebot3.git
