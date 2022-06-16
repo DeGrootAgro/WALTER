@@ -25,5 +25,5 @@ While driving the robot uses its lidar to detect possible obstacles and navigate
 # TODO
 
 - Build mockup sensor for collection system
-- Build mockup sensor for battery percentage
 - Include state_controller in walter
+- Include robot_localization sub module

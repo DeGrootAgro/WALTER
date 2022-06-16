@@ -1,42 +1,42 @@
 <?xml version="1.0"?>
 
 <launch>
-    <arg name="map_file" default="$(find turtlebot3_navigation)/maps/map.yaml"/>
-    <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
-    <arg name="open_rviz" default="true"/>
-    <arg name="move_forward_only" default="false"/>
-    <arg name="cmd_vel_topic_navigate" default="/navigate/cmd_vel"/>
+  <arg name="map_file" default="$(find turtlebot3_navigation)/maps/map.yaml"/>
+  <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+  <arg name="open_rviz" default="true"/>
+  <arg name="move_forward_only" default="false"/>
+  <arg name="cmd_vel_topic_navigate" default="/navigate/cmd_vel"/>
 
-    <arg name="coverage_area_offset" default="-2.5 -2.5 0 0 0 0"/>
-    <arg name="coverage_area_size_x" default="10"/>
-    <arg name="coverage_area_size_y" default="10"/>
-    <arg name="target_x_vel" default="0.5"/>
-    <arg name="target_yaw_vel" default="0.4"/>
-    <arg name="robot_radius" default="0.2"/>
-    <arg name="tool_radius" default="0.2"/>
-    <arg name="rviz" default="true"/>
-    <arg name="cmd_vel_topic" default="cmd_vel"/>
+  <arg name="coverage_area_offset" default="-2.5 -2.5 0 0 0 0"/>
+  <arg name="coverage_area_size_x" default="10"/>
+  <arg name="coverage_area_size_y" default="10"/>
+  <arg name="target_x_vel" default="0.5"/>
+  <arg name="target_yaw_vel" default="0.4"/>
+  <arg name="robot_radius" default="0.2"/>
+  <arg name="tool_radius" default="0.2"/>
+  <arg name="rviz" default="true"/>
+  <arg name="cmd_vel_topic" default="cmd_vel"/>
 
 
-    <node name="state_controller" pkg="state_controller" type="state_controller" output ="screen" />
+  <node name="state_controller" pkg="state_controller" type="state_controller" output ="screen" />
 
-    <node name="turtlebot3_teleop_keys" pkg="turtlebot3_teleop" type="turtlebot3_teleop_key" >
-        <remap from="/cmd_vel" to="/manual/cmd_vel"/>
-    </node>
-    
-
-    <!-- Map server -->
-  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
-     <param name="frame_id" value="map"/>
+  <node name="turtlebot3_teleop_keys" pkg="turtlebot3_teleop" type="turtlebot3_teleop_key">
+    <remap from="/cmd_vel" to="/manual/cmd_vel"/>
   </node>
 
-  <node pkg="riotu_robot_pose_publisher" name="riotu_robot_pose_publisher" type="riotu_robot_pose_publisher"/>
-    <!-- Turtlebot3 -->
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
+    <param name="frame_id" value="map"/>
+  </node>
+
+  <node pkg="robot_pose_publisher" name="robot_pose_publisher" type="robot_pose_publisher"/>
+  <!-- Turtlebot3 -->
   <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
     <arg name="model" value="$(arg model)" />
   </include>
 
-    <!-- AMCL -->
+  <!-- AMCL -->
   <include file="$(find turtlebot3_navigation)/launch/amcl.launch"/>
 
   <!-- <invlude file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"> -->
@@ -48,20 +48,19 @@
     <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic_navigate)" />
   </include>
 
-    
+
   <!-- <include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch">
         <arg name="map_file" value="$(find state_controller)/maps/map.yaml"/>
         <arg name="cmd_vel_topic" value="/navigate/cmd_vel"/>
   </include> -->
-  
-<!--     
+
+  <!--     
     <include file="$(find full_coverage_path_planner)/launch/plan_run_current_map.launch">
         <arg name="cmd_vel_topic" value="/automatic/cmd_vel"/>
     </include> 
 -->
-    <group if="$(arg open_rviz)"> 
-    <node pkg="rviz" type="rviz" name="rviz" required="true"
-          args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
-    </group> 
-    
+  <group if="$(arg open_rviz)">
+    <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
+  </group>
+
 </launch>
