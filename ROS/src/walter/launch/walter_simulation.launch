@@ -1,12 +1,15 @@
 <launch>\
-            <!-- Set the console to display debug info, comment next line to not display debug info. -->
+                        <!-- Set the console to display debug info, comment next line to not display debug info. -->
     <env name="ROSCONSOLE_CONFIG_FILE" value="$(find walter)/cfg/debug_ros_console.conf"/>
 
     <!-- Node containing mockup gps sensor -->
-    <node pkg="walter" type="walter_gps_sensor_node" name="walter_gps_sensor_instance" output="screen"/>
+    <node pkg="walter" type="walter_gps_sensor_node" name="walter_gps_sensor_instance" output="screen">
+        <param name="longitude" value="1.0"/>
+        <param name="latitude" value="1.0"/>
+    </node>
 
     <!-- Node containing mockup battery sensor -->
-    <node pkg="walter" type="walter_battery_sensor_node" name="walter_gps_sensor_instance" output="screen"/>
+    <node pkg="walter" type="walter_battery_sensor_node" name="walter_battery_sensor_instance" output="screen"/>
 
 
 

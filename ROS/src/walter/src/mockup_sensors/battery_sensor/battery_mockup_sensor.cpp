@@ -8,30 +8,29 @@ namespace battery_mockup_sensor {
 Sensor::Sensor() {
   this->node_handle = new ros::NodeHandle("~");
 
-  this->node_handle->param("/walter/mockup_sensors/battery_usage",
-                           this->battery_usage_per_second, 0.1);
+  this->node_handle->param("/battery_usage", this->battery_usage_per_second,
+                           0.1);
 
-  this->node_handle->param("/walter/mockup_sensors/battery_charging_speed",
+  this->node_handle->param("/battery_charging_speed",
                            this->battery_charging_speed_per_second, 2.0);
 
   int frequency;
-  this->node_handle->param("/walter/mockup_sensors/battery_frequency",
-                           frequency, 1);
+  this->node_handle->param("/battery_frequency", frequency, 1);
 
   this->loop_rate = new ros::Rate(frequency);
 
   std::string topic("/walter/battery_percentage");
-  this->node_handle->param("/walter/mockup_sensors/battery_topic", topic,
-                           topic);
+  this->node_handle->param("/battery_sensor_topic", topic, topic);
 
   std::string action_server_name("battery_action_server");
-  this->node_handle->param("/walter/mockup_sensors/battery_action_server_topic",
-                           topic, topic);
+  this->node_handle->param("/action_server_topic", topic, topic);
 
   this->publisher = node_handle->advertise<walter::Battery>(topic, 1000);
   this->sequence = 1;
 
   this->percentage = 100.0;
+  this->charging_target = 0.0;
+  this->is_charging = false;
 
   this->action_server =
       new actionlib::SimpleActionServer<walter::ChargeBatteryAction>(
