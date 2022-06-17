@@ -34,11 +34,11 @@ rosparam set /walter_battery_sensor_instance/action_server_topic
 
 ## Frequency
 
-The frequency the mockup sensor sends data. This parameter can be set with the gps_frequency namespace.
+The frequency the mockup sensor sends data. THis parameter can be set with the gps_frequency namespace.
 This value is a integer. Defaults to 1.
 
 ```
-rosparam set /walter_battery_sensor_instance/frequency 1
+rosparam set /walter_battery_sensor_instance/battery_frequency 100
 ```
 
 ## Topic
