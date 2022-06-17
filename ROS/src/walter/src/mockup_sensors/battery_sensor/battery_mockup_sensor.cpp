@@ -1,7 +1,7 @@
 #include "mockup_sensors/battery_mockup_sensor.hpp"
+#include "walter_msgs/Battery.h"
+#include "walter_msgs/ChargeBatteryAction.h"
 #include <ros/ros.h>
-#include <walter/Battery.h>
-#include <walter/ChargeBatteryAction.h>
 
 namespace battery_mockup_sensor {
 
@@ -25,7 +25,7 @@ Sensor::Sensor() {
   std::string action_server_name("battery_action_server");
   this->node_handle->param("/action_server_topic", topic, topic);
 
-  this->publisher = node_handle->advertise<walter::Battery>(topic, 1000);
+  this->publisher = node_handle->advertise<walter_msgs::Battery>(topic, 1000);
   this->sequence = 1;
 
   this->percentage = 100.0;
@@ -33,7 +33,7 @@ Sensor::Sensor() {
   this->is_charging = false;
 
   this->action_server =
-      new actionlib::SimpleActionServer<walter::ChargeBatteryAction>(
+      new actionlib::SimpleActionServer<walter_msgs::ChargeBatteryAction>(
           action_server_name, false);
   this->action_server->start();
 
@@ -48,7 +48,7 @@ void Sensor::spin() {
   header.frame_id = "battery_percentage";
 
   // Create battery msg
-  walter::Battery battery_msg;
+  walter_msgs::Battery battery_msg;
 
   while (ros::ok()) {
     // Set sequence in header and increment sequence

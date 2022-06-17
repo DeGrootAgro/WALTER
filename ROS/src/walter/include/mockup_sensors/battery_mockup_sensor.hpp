@@ -3,7 +3,7 @@
 
 #include <actionlib/server/simple_action_server.h>
 #include <ros/ros.h>
-#include <walter/ChargeBatteryAction.h>
+// #include <walter_msgs/ChargeBatteryAction.h>
 
 namespace battery_mockup_sensor {
 class Sensor {
@@ -11,7 +11,8 @@ private:
   ros::Rate *loop_rate;
   ros::NodeHandle *node_handle;
   ros::Publisher publisher;
-  actionlib::SimpleActionServer<walter::ChargeBatteryAction> *action_server;
+  // actionlib::SimpleActionServer<walter_msgs::ChargeBatteryAction>
+  //     *action_server;
   int sequence;
   bool is_charging;
 
@@ -23,7 +24,7 @@ public:
   Sensor();
   ~Sensor();
 
-  void execute(const walter::ChargeBatteryActionGoal &goal);
+  // void execute(const walter_msgs::ChargeBatteryActionGoal &goal);
 
   void spin();
 };
