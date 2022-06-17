@@ -101,7 +101,7 @@ include
 add_executable(${PROJECT_NAME}_node src/walter_node.cpp)
 add_executable(${PROJECT_NAME}_battery_sensor_node src/mockup_sensors/battery_sensor/battery_mockup_sensor_node.cpp src/mockup_sensors/battery_sensor/battery_mockup_sensor.cpp )
 add_executable(${PROJECT_NAME}_gps_sensor_node src/mockup_sensors/gps_sensor/gps_mockup_sensor_node.cpp src/mockup_sensors/gps_sensor/gps_mockup_sensor.cpp )
-add_executable(${PROJECT_NAME}_collection_sensor_node src/mockup_sensors/collection_sensor/collection_mockup_sensor_node.cpp src/mockup_sensors/collection_sensor/collection_mockup_sensor.cpp )
+# add_executable(${PROJECT_NAME}_collection_sensor_node src/mockup_sensors/collection_sensor/collection_mockup_sensor_node.cpp src/mockup_sensors/collection_sensor/collection_mockup_sensor.cpp )
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -129,9 +129,9 @@ target_link_libraries(${PROJECT_NAME}_gps_sensor_node
 )
 
 # Link libraries for collection mockup sensor
-target_link_libraries(${PROJECT_NAME}_collection_sensor_node
-  ${catkin_LIBRARIES}
-)
+# target_link_libraries(${PROJECT_NAME}_collection_sensor_node
+#   ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##

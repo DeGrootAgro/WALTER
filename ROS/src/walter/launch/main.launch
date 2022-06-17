@@ -6,9 +6,9 @@
     <!-- <node pkg="walter" type="walter_node" name="walter_instance" output="screen"/> -->
 
     <!-- Create node for ublox -->
-    <node pkg="ublox_gps" type="ublox_device" name="ublox_instance" output="screen">
+    <!-- <node pkg="ublox_gps" type="ublox_device" name="ublox_instance" output="screen">
         <param name="device" value="/dev/ttyACM1"/>
-    </node>
+    </node> -->
 
     <!-- Below are nodes used to estimate pose of walter -->
     <!-- Convert from sensor_msgs/NavSatFix to nav_msgs/Odometry  -->
@@ -64,7 +64,7 @@
 
         <!-- Use IMU data from rotary encoders -->
         <param name="imu0" value="imu" />
-        <param name="imu0_differential" value="true"/>
+        <param name="imu0_differential" value="false"/>
         <rosparam param="imu0_config">[false,  false,  false,
             false,  false,  true,
             false,  false, false,
