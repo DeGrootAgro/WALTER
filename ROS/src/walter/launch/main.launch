@@ -5,6 +5,11 @@
     <!-- Create node for walter -->
     <!-- <node pkg="walter" type="walter_node" name="walter_instance" output="screen"/> -->
 
+    <!-- Create node for ublox -->
+    <node pkg="ublox_gps" type="ublox_device" name="ublox_instance" output="screen">
+        <param name="device" value="/dev/ttyACM1"/>
+    </node>
+
     <!-- Below are nodes used to estimate pose of walter -->
     <!-- Convert from sensor_msgs/NavSatFix to nav_msgs/Odometry  -->
     <node name="navsat_transform_node" pkg="robot_localization" type="navsat_transform_node" output="screen">
