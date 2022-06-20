@@ -18,8 +18,11 @@ void log(std::string data){
     std::cout<<"[STATE_CONTROLLER] " << data << std::endl;
 }
 
+
+//this boolean reports if walter has changed state since te last iteration of the loop
 bool switched = false;
 
+//all walter states
 enum state{
     ST_IDLE,
     ST_CHARGING,
@@ -34,13 +37,17 @@ enum state{
 
 state current_state;
 
+//all publishers
 ros::Publisher cmd_vel_publisher;
 ros::Publisher paused_publisher;
 ros::Publisher goal_publisher;
 ros::Publisher change_state_publisher;
 
+//defines the location of the robot the instant it switches from ST_COLLECTING to another state
+//this is necessary when trying to continue collecting after charging or unloading.
 geometry_msgs::Pose lastRoutePose; 
 
+//define all states as strings for logging purposes
 std::map<state, std::string> enum_names;
 
 void init_state_names(){
@@ -55,10 +62,7 @@ void init_state_names(){
     enum_names[ST_RETURN_TO_PATH]       = "ST_RETURN_TO_PATH";
 }
 
-
-
-
-
+//sets the nav goal for the robot on the map
 void set_nav_goal(ros::NodeHandle n, geometry_msgs::Pose p){
     geometry_msgs::PoseStamped pose;
 
@@ -70,6 +74,7 @@ void set_nav_goal(ros::NodeHandle n, geometry_msgs::Pose p){
     goal_publisher.publish(pose);
 }
 
+//sends cmd vel data to the robot. also checks if maximum speed is exceeded
 void send_CMD_VEL_data(geometry_msgs::Twist::ConstPtr t){
    geometry_msgs::Twist newTwist;
    
@@ -96,6 +101,7 @@ void send_CMD_VEL_data(geometry_msgs::Twist::ConstPtr t){
     cmd_vel_publisher.publish(newTwist);
 }
 
+//this function pauses the path planner if the robot is not in the ST_COLLECTING STATE
 void run_coverage_config(){
     std_msgs::Bool paused;
  
@@ -111,14 +117,18 @@ void run_coverage_config(){
     
 }
 
+
+//these functions are the different functions for revieving the cmd vel for the different states
+
+//ST_MANUAL_CONTROL
 void on_cmd_vel_recieve_manual(const geometry_msgs::Twist::ConstPtr& msg){
     if (current_state == ST_MANUAL_CONTROL)
     {
-        //cmd_vel_publisher.publish(msg);
         send_CMD_VEL_data(msg);
     }
 }
 
+//ST_COLLECTING
 void on_cmd_vel_recieve_automatic(const geometry_msgs::Twist::ConstPtr& msg){
    if (current_state == ST_COLLECTING)
    {
@@ -126,13 +136,16 @@ void on_cmd_vel_recieve_automatic(const geometry_msgs::Twist::ConstPtr& msg){
    }
 }
 
+//ST_NAVIGATE_TO_CHARGING, ST_NAVIGATE_TO_LOADING or ST_RETURN_TO_PATH
 void on_cmd_vel_recieve_navigate_to(const geometry_msgs::Twist::ConstPtr& msg){
-   if (current_state == ST_NAVIGATE_TO_CHARGING || current_state == ST_NAVIGATE_TO_LOADING||ST_RETURN_TO_PATH)
+   if (current_state == ST_NAVIGATE_TO_CHARGING || current_state == ST_NAVIGATE_TO_LOADING|| current_state == ST_RETURN_TO_PATH)
    {
      send_CMD_VEL_data(msg);
    }
 }
 
+
+//if the state needs to be swicthed, this function is called
 void on_recieve_state_switch(const std_msgs::String::ConstPtr &msg){
     log("Revieved state switch message");
     std::string newStateString(msg->data.c_str());
@@ -157,6 +170,7 @@ void on_recieve_state_switch(const std_msgs::String::ConstPtr &msg){
     }
 }
 
+//this function checks if the nav goal is reached
 void on_recieve_nav_status(const move_base_msgs::MoveBaseActionResult &msg){
    int status = msg.status.status;
 
@@ -189,7 +203,7 @@ void on_recieve_nav_status(const move_base_msgs::MoveBaseActionResult &msg){
 }
 
 
-
+//publishes the current thread once per secons
 void publish_state_thread(){
 
   ros::NodeHandlePtr node = boost::make_shared<ros::NodeHandle>();
@@ -256,8 +270,10 @@ int main(int argc, char **argv){
     boost::thread thread_b(publish_state_thread);
 
 
-    
+    //garantee that the loop runs at 15hz
+    //most robots require a frequency of at least 10hz
     ros::Rate rate(15);
+
     while (ros::ok())
     {
         run_coverage_config();
@@ -288,7 +304,7 @@ int main(int argc, char **argv){
         case ST_RETURN_TO_PATH:
             if (switched)
             {
-                
+                //set goal to last saved point
                 set_nav_goal(n,lastRoutePose);
                 switched = false;
 
@@ -298,20 +314,24 @@ int main(int argc, char **argv){
         break;
 
         case ST_NAVIGATE_TO_CHARGING:
-        if (switched)
-        {
-            geometry_msgs::Pose p = *(ros::topic::waitForMessage<geometry_msgs::Pose>("UNLOAD_POINT"));
+            if (switched)
+            {
 
+                //set goal to the charging point   
+                geometry_msgs::Pose p = *(ros::topic::waitForMessage<geometry_msgs::Pose>("UNLOAD_POINT"));
 
-
-            set_nav_goal(n,p);
-            switched = false;
+                set_nav_goal(n,p);
+                switched = false;
         }
             break;
 
         case ST_NAVIGATE_TO_LOADING:
             if (switched)
             {
+                //set goal to the unloading point
+                geometry_msgs::Pose p = *(ros::topic::waitForMessage<geometry_msgs::Pose>("UNLOAD_POINT"));
+
+                set_nav_goal(n,p);
                 switched = false;
                 
             }

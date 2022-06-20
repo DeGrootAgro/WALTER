@@ -1,6 +1,12 @@
 #include "ros/ros.h"
 #include "geometry_msgs/Twist.h"
 
+
+/*
+THIS CLASS IS UNUSED
+*/
+
+
 class robot_state{
     public:
      bool is_active;

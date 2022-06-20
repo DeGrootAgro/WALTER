@@ -2,7 +2,10 @@
 #include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/Pose.h"
 
+/*
+the landmark class defines a point that can be used by the system. this can be a charging point or an unloading point for example.
 
+*/
 class landmark
 {
 private:
@@ -31,6 +34,10 @@ geometry_msgs::Pose landmark::location(){
 std::string landmark::name(){
     return _name;
 }
+
+/*
+Publish the location to ROS
+*/
 void landmark::publish(){
     p.publish(_location);
 }

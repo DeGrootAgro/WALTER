@@ -1,5 +1,8 @@
 #include "state_controller/robot_state.h"
 
+
+/*THIS CLASS IS UNUSED*/
+
 void emergency_stop_state::update(){
 
 }

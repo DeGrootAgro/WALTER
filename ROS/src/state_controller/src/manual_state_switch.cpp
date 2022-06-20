@@ -1,6 +1,8 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 
+
+//all posible walter states
 enum state{
     ST_IDLE,
     ST_CHARGING,
