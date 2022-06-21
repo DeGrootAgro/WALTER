@@ -25,25 +25,14 @@ def editmap():
 
     mask1 = np.zeros(im.shape[:2], dtype="uint8")
 
-
-    #masked = cv2.bitwise_or(im, mask1, mask=edges)
-
-    #cv2.imshow("edges", edges)
-
-    #cv2.imshow("mask1",mask1)
-
-    #cv2.imshow("masked",masked)
-
     for y in range(0,im.shape[0]):
         for x in range(0,im.shape[1]):
-            if (edges[y,x] == 1):
+            if (edges[y,x] > 10):
                 mask1[y,x] = 0
             else:
                 mask1[y,x] = im[y,x]
 
-    cv2.imshow("newmap",mask1)
-    cv2.waitKey(0)
-
+    cv2.imwrite(sys.argv[1],mask1)
     
     
 
