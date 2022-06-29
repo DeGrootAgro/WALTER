@@ -5,6 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   actionlib
+  walter_msgs
 )
 
 ################################################

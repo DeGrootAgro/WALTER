@@ -3,7 +3,7 @@
 
 #include <actionlib/server/simple_action_server.h>
 #include <ros/ros.h>
-#include <walter/EmptyCollectionAction.h>
+#include <walter_msgs/EmptyCollectionAction.h>
 
 namespace collection_mockup_sensor {
 class Sensor {
