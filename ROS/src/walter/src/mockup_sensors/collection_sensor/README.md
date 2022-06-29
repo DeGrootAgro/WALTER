@@ -1,4 +1,4 @@
-# GPS mockup sensor
+# Collection mockup sensor
 
 This is a mockup of a sensor that can be used with WALTER.
 

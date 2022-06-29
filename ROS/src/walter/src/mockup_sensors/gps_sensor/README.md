@@ -20,6 +20,15 @@ These can be set by using rosparam in the following manner:
 rosparam set /walter_gps_sensor_instance/longitude 4.897070
 ```
 
+## Noise factor
+
+Parameter used to define drift from posisiton per cycle. Defaults to 0.0001.
+Can be set in the following manor:
+
+```
+rosparam set /walter_gps_sensor_instance/noise_factor 0.0001
+```
+
 ## Frequency
 
 The frequency the mockup sensor sends data. THis parameter can be set with the gps_frequency namespace.

@@ -10,6 +10,7 @@ Sensor::Sensor() {
   this->node_handle->param("longitude", this->longitude, 0.0);
   this->node_handle->param("latitude", this->latitude, 0.0);
   this->node_handle->param("altitude", this->altitude, 0.0);
+  this->node_handle->param("noise_factor", this->noise_factor, 0.0001);
 
   int frequency;
   this->node_handle->param("frequency", frequency, 1);
@@ -38,14 +39,18 @@ void Sensor::spin() {
   sensor_msgs::NavSatFix nav_sat_fix;
   nav_sat_fix.position_covariance_type =
       sensor_msgs::NavSatFix::COVARIANCE_TYPE_UNKNOWN;
-  nav_sat_fix.latitude = this->latitude;
-  nav_sat_fix.longitude = this->longitude;
-  nav_sat_fix.altitude = this->altitude;
+
   nav_sat_fix.status = nav_sat_status;
 
   while (ros::ok()) {
     // Set sequence in header and increment sequence
     header.seq = sequence++;
+
+    // Set the coordinates with a noise
+    nav_sat_fix.latitude = this->latitude + calculate_noise();
+    nav_sat_fix.longitude = this->longitude + calculate_noise();
+    nav_sat_fix.altitude = this->altitude + calculate_noise();
+
     // Set the time this message is being constructed
     header.stamp = ros::Time::now();
     // Set header of nav_sat_fix
@@ -56,6 +61,18 @@ void Sensor::spin() {
     // Sleep for the remaining time
     loop_rate->sleep();
   };
+}
+
+double Sensor::calculate_noise() {
+  // Generate a random number between -100 and 100
+  int random = rand() % 201 - 100;
+  // Make noise equal 1%
+  double noise = this->noise_factor / 100;
+
+  // Multiply 1% by random witch is mapped between -100 and 100.
+  noise *= random;
+
+  return noise;
 }
 
 } // namespace gps_mockup_sensor
