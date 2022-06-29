@@ -13,8 +13,8 @@ Automating the collection will make this system viable for the farmers.
 
 # Project owner
 
-This project is run by [De Groot Agro Tech B.V.](http://google.com).
-If you are interested in this project you can get in contact with the following email adress:<rob@degrootagro.nl>.
+This project is run by [De Groot Agro Tech B.V.](https://degrootagro.nl/).
+If you are interested in this project you can get in contact with the following email adress:<hallo@degrootagro.nl>.
 
 # Development
 
