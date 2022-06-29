@@ -1,47 +1,44 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(walter)
+project(walter_msgs)
 
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
+  actionlib_msgs
   std_msgs
-  actionlib
-  walter_msgs
+  message_generation
 )
 
-################################################
-## Declare ROS dynamic reconfigure parameters ##
-################################################
+## Generate messages in the 'msg' folder
+add_message_files(
+  FILES
+  Battery.msg
+  Collection.msg
+  State.msg
+)
 
-## To declare and build dynamic reconfigure parameters within this
-## package, follow these steps:
-## * In the file package.xml:
-##   * add a build_depend and a exec_depend tag for "dynamic_reconfigure"
-## * In this file (CMakeLists.txt):
-##   * add "dynamic_reconfigure" to
-##     find_package(catkin REQUIRED COMPONENTS ...)
-##   * uncomment the "generate_dynamic_reconfigure_options" section below
-##     and list every .cfg file to be processed
-
-## Generate dynamic reconfigure parameters in the 'cfg' folder
-# generate_dynamic_reconfigure_options(
-#   cfg/DynReconf1.cfg
-#   cfg/DynReconf2.cfg
+## Generate services in the 'srv' folder
+# add_service_files(
+#   FILES
+#   Service1.srv
+#   Service2.srv
 # )
 
-###################################
-## catkin specific configuration ##
-###################################
-## The catkin_package macro generates cmake config files for your package
-## Declare things to be passed to dependent projects
-## INCLUDE_DIRS: uncomment this if your package contains header files
-## LIBRARIES: libraries you create in this project that dependent projects also need
-## CATKIN_DEPENDS: catkin_packages dependent projects also need
-## DEPENDS: system dependencies of this project that dependent projects also need
+## Generate action files in the 'action' folder
+add_action_files(
+  FILES
+  ChargeBattery.action
+  EmptyCollection.action
+)
+
+## Generate added messages and services with any dependencies listed here
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+  actionlib_msgs
+)
+
+
 catkin_package(
- INCLUDE_DIRS include
-#  LIBRARIES simple_navigation_goals
- CATKIN_DEPENDS  roscpp walter_msgs
-#  DEPENDS system_lib
+  CATKIN_DEPENDS actionlib_msgs std_msgs message_runtime 
 )
 
 ###########
@@ -51,13 +48,13 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-include
+# include
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/simple_navigation_goals.cpp
+#   src/${PROJECT_NAME}/walter_msgs.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -68,10 +65,7 @@ include
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_node src/walter_node.cpp)
-add_executable(${PROJECT_NAME}_battery_sensor_node src/mockup_sensors/battery_sensor/battery_mockup_sensor_node.cpp src/mockup_sensors/battery_sensor/battery_mockup_sensor.cpp )
-add_executable(${PROJECT_NAME}_gps_sensor_node src/mockup_sensors/gps_sensor/gps_mockup_sensor_node.cpp src/mockup_sensors/gps_sensor/gps_mockup_sensor.cpp )
-# add_executable(${PROJECT_NAME}_collection_sensor_node src/mockup_sensors/collection_sensor/collection_mockup_sensor_node.cpp src/mockup_sensors/collection_sensor/collection_mockup_sensor.cpp )
+# add_executable(${PROJECT_NAME}_node src/walter_msgs_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -84,22 +78,7 @@ add_executable(${PROJECT_NAME}_gps_sensor_node src/mockup_sensors/gps_sensor/gps
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(${PROJECT_NAME}_node
-  ${catkin_LIBRARIES}
-)
-
-# Link libraries for battery mockup sensor
-target_link_libraries(${PROJECT_NAME}_battery_sensor_node
-  ${catkin_LIBRARIES}
-)
-
-# Link libraries for gps mockup sensor
-target_link_libraries(${PROJECT_NAME}_gps_sensor_node
-  ${catkin_LIBRARIES}
-)
-
-# Link libraries for collection mockup sensor
-# target_link_libraries(${PROJECT_NAME}_collection_sensor_node
+# target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -150,7 +129,7 @@ target_link_libraries(${PROJECT_NAME}_gps_sensor_node
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_simple_navigation_goals.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_walter_msgs.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

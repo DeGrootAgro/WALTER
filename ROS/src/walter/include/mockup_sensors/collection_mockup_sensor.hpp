@@ -3,7 +3,7 @@
 
 #include <actionlib/server/simple_action_server.h>
 #include <ros/ros.h>
-#include <walter/EmptyCollectionAction.h>
+#include <walter_msgs/EmptyCollectionAction.h>
 
 namespace collection_mockup_sensor {
 class Sensor {
@@ -11,7 +11,8 @@ private:
   ros::Rate *loop_rate;
   ros::NodeHandle *node_handle;
   ros::Publisher publisher;
-  actionlib::SimpleActionServer<walter::EmptyCollectionAction> *action_server;
+  actionlib::SimpleActionServer<walter_msgs::EmptyCollectionAction>
+      *action_server;
   int sequence;
   bool is_emptying;
 
@@ -23,7 +24,7 @@ public:
   Sensor();
   ~Sensor();
 
-  void execute(const walter::EmptyCollectionActionGoal &goal);
+  void execute(const walter_msgs::EmptyCollectionActionGoal &goal);
 
   void spin();
 };

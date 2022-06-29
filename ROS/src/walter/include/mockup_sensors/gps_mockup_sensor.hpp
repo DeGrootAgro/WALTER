@@ -10,11 +10,13 @@ private:
   ros::NodeHandle *node_handle;
   ros::Publisher publisher;
   int sequence;
-  double longitude, latitude, altitude;
+  double longitude, latitude, altitude, noise_factor;
 
 public:
   Sensor();
   ~Sensor();
+
+  double calculate_noise();
 
   void spin();
 };

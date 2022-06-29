@@ -1,7 +1,7 @@
 #include "mockup_sensors/collection_mockup_sensor.hpp"
 #include <ros/ros.h>
-#include <walter/Collection.h>
-#include <walter/EmptyCollectionAction.h>
+#include <walter_msgs/Collection.h>
+#include <walter_msgs/EmptyCollectionAction.h>
 
 namespace collection_mockup_sensor {
 
@@ -25,7 +25,8 @@ Sensor::Sensor() {
   std::string action_server_name("collection_action_server");
   this->node_handle->param("/action_server_topic", topic, topic);
 
-  this->publisher = node_handle->advertise<walter::Collection>(topic, 1000);
+  this->publisher =
+      node_handle->advertise<walter_msgs::Collection>(topic, 1000);
   this->sequence = 1;
 
   this->percentage = 100.0;
@@ -33,7 +34,7 @@ Sensor::Sensor() {
   this->is_emptying = false;
 
   this->action_server =
-      new actionlib::SimpleActionServer<walter::EmptyCollectionAction>(
+      new actionlib::SimpleActionServer<walter_msgs::EmptyCollectionAction>(
           action_server_name, false);
   this->action_server->start();
 
@@ -48,7 +49,7 @@ void Sensor::spin() {
   header.frame_id = "collection_percentage";
 
   // Create battery msg
-  walter::Collection collection_msg;
+  walter_msgs::Collection collection_msg;
 
   while (ros::ok()) {
     // Set sequence in header and increment sequence

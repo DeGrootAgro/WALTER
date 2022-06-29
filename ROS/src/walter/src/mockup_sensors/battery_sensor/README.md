@@ -1,4 +1,4 @@
-# GPS mockup sensor
+# Battery mockup sensor
 
 This is a mockup of a sensor that can be used with WALTER.
 

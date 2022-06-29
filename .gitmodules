@@ -1,9 +1,11 @@
 [submodule "ROS/src/full_coverage_path_planner"]
 	path = ROS/src/full_coverage_path_planner
 	url = https://github.com/nobleo/full_coverage_path_planner
+	branch = noetic
 [submodule "ROS/src/rosbridge_suite"]
 	path = ROS/src/rosbridge_suite
 	url = https://github.com/RobotWebTools/rosbridge_suite
+	branch = ros1
 [submodule "ROS/src/turtlebot3"]
 	path = ROS/src/turtlebot3
 	url = https://github.com/ROBOTIS-GIT/turtlebot3.git
@@ -17,10 +19,6 @@
 [submodule "ROS/src/robot_pose_publisher"]
 	path = ROS/src/robot_pose_publisher
 	url = https://github.com/GT-RAIL/robot_pose_publisher.git
-[submodule "ROS/src/--force"]
-	path = ROS/src/--force
-	url = https://github.com/cra-ros-pkg/robot_localization.git
-	branch = noetic-devel
 [submodule "ROS/src/robot_localization"]
 	path = ROS/src/robot_localization
 	url = https://github.com/cra-ros-pkg/robot_localization.git
